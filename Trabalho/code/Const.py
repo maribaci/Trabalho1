@@ -1,4 +1,3 @@
-from pygame.examples.grid import WINDOW_WIDTH
 
 
 COLOR_ORANGE = (255, 128, 0)

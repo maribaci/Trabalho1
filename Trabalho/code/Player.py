@@ -1,8 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-from Player import Player
-from Entity import Entity
+from code.Player import Player
+from code.Entity import Entity
 
 
 class Player(Player, Entity):

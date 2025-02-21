@@ -21,3 +21,4 @@ class Level:
                 ent.move()
             pygame.display.flip()
         pass
+
