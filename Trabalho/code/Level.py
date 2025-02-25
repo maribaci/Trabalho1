@@ -3,11 +3,12 @@
 import sys
 
 import pygame
+from numpy import random
 from pygame import Surface, Rect
 from pygame.font import Font
 
 from code import Entity
-from code.Const import WIN_HEIGHT, COLOR_WHITE
+from code.Const import WIN_HEIGHT, COLOR_WHITE, MENU_OPTION, EVENT_ENEMY, SPAWN_TIME
 from code.EntityFactory import EntityFactory
 
 
@@ -20,6 +21,9 @@ class Level:
         self.entity_list: list[Entity] = []
         self.entity_list.extend(EntityFactory.get_entity('Level1Bg'))
         self.entity_list.append(EntityFactory.get_entity('Player1'))
+        if game_mode in [MENU_OPTION[1], MENU_OPTION[2]]:
+            self.entity_list.append(EntityFactory.get_entity('Player2'))
+        pygame.time.set_timer(EVENT_ENEMY, SPAWN_TIME)
         self.timeout = 20000
 
     def run(self):
@@ -35,12 +39,16 @@ class Level:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
+                if event.type == EVENT_ENEMY:
+                    choice = random.choice(('Enemy1', 'Enemy2'))
+                    self.entity_list.append(EntityFactory.get_entity('choice'))
 
             #printex text
             self.level_text( text_size=14, text= f'{self.name} - Timeout: {self.timeout / 1000 :.1f}s' , text_color= COLOR_WHITE, text_pos=(10, 5))
             self.level_text( text_size=14, text= f'fps: {clock.get_fps() :.0f}',text_color= COLOR_WHITE, text_pos=(10, WIN_HEIGHT - 35))
             self.level_text(text_size=14, text= f'entidades: {len(self.entity_list)}',text_color= COLOR_WHITE, text_pos=(10, WIN_HEIGHT - 20))
-            #pygame.display.flip()
+            pygame.display.flip()
+        pass
 
     def level_text(self, text_size: int, text: str, text_color: tuple, text_pos: tuple):
         text_font: Font = pygame.font.SysFont(name="Lucida Sans Typewriter", size=text_size)
